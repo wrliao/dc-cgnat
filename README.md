@@ -1,4 +1,4 @@
-**Noia SR-OS CGNAT for DC fabric**
+**Nokia SR-OS CGNAT for DC fabric**
 
 <img width="1352" height="996" alt="image" src="https://github.com/user-attachments/assets/a9a85390-3ade-45c7-a2ed-f1d8379b5492" />
 
