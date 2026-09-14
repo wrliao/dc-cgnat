@@ -1,0 +1,315 @@
+{
+  "freeTextAnnotations": [],
+  "freeShapeAnnotations": [],
+  "trafficRateAnnotations": [
+    {
+      "id": "traffic-rate-1",
+      "position": {
+        "x": 894.7207460234309,
+        "y": -51.896214172791645
+      },
+      "nodeId": "internet-host",
+      "interfaceName": "eth1",
+      "mode": "chart",
+      "textMetric": "combined",
+      "backgroundOpacity": 20,
+      "borderWidth": 1,
+      "borderRadius": 8,
+      "width": 280,
+      "height": 170
+    },
+    {
+      "id": "traffic-rate-2",
+      "position": {
+        "x": 170.9585598300985,
+        "y": 554.2922062428468
+      },
+      "nodeId": "tenant1",
+      "interfaceName": "eth1",
+      "mode": "chart",
+      "textMetric": "combined",
+      "backgroundOpacity": 20,
+      "borderWidth": 1,
+      "borderRadius": 8,
+      "width": 280,
+      "height": 170
+    },
+    {
+      "id": "traffic-rate-2-1",
+      "position": {
+        "x": 911.31198045656,
+        "y": 543.909547119396
+      },
+      "label": "traffic-rate-2-1",
+      "nodeId": "tenant2",
+      "interfaceName": "eth1",
+      "mode": "chart",
+      "textMetric": "combined",
+      "backgroundOpacity": 20,
+      "borderWidth": 1,
+      "borderRadius": 8,
+      "width": 280,
+      "height": 170
+    },
+    {
+      "id": "traffic-rate-2-2",
+      "position": {
+        "x": 156.4768648657654,
+        "y": 140.52785156344711
+      },
+      "label": "traffic-rate-2-2",
+      "nodeId": "internet-peer",
+      "interfaceName": "1/1/c1/1",
+      "mode": "chart",
+      "textMetric": "combined",
+      "backgroundOpacity": 20,
+      "borderWidth": 1,
+      "borderRadius": 8,
+      "width": 280,
+      "height": 170
+    },
+    {
+      "id": "traffic-rate-2-2-1",
+      "position": {
+        "x": 893.7372015409125,
+        "y": 129.33482901370118
+      },
+      "label": "traffic-rate-2-2-1",
+      "nodeId": "internet-peer",
+      "interfaceName": "1/1/c2/1",
+      "mode": "chart",
+      "textMetric": "combined",
+      "backgroundOpacity": 20,
+      "borderWidth": 1,
+      "borderRadius": 8,
+      "width": 280,
+      "height": 170
+    }
+  ],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "leaf1",
+      "interfacePattern": "e1-{n}",
+      "position": {
+        "x": 520,
+        "y": 500
+      },
+      "icon": "leaf",
+      "labelPosition": "left"
+    },
+    {
+      "id": "leaf2",
+      "interfacePattern": "e1-{n}",
+      "position": {
+        "x": 760,
+        "y": 500
+      },
+      "icon": "leaf",
+      "labelPosition": "right"
+    },
+    {
+      "id": "svc-leaf1",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 500,
+        "y": 340
+      },
+      "labelPosition": "left",
+      "icon": "pe"
+    },
+    {
+      "id": "gnmic",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 260,
+        "y": -20
+      },
+      "icon": "dcgw"
+    },
+    {
+      "id": "svc-leaf2",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 780,
+        "y": 340
+      },
+      "labelPosition": "right",
+      "icon": "pe"
+    },
+    {
+      "id": "tenant5",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 640,
+        "y": 600
+      },
+      "icon": "dcgw"
+    },
+    {
+      "id": "internet-peer",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 640,
+        "y": 100
+      },
+      "labelPosition": "right",
+      "icon": "pe"
+    },
+    {
+      "id": "tenant1",
+      "position": {
+        "x": 480,
+        "y": 600
+      },
+      "icon": "client"
+    },
+    {
+      "id": "tenant2",
+      "position": {
+        "x": 720,
+        "y": 600
+      },
+      "icon": "client"
+    },
+    {
+      "id": "internet-host",
+      "position": {
+        "x": 640,
+        "y": -20
+      },
+      "icon": "cloud",
+      "labelPosition": "right"
+    },
+    {
+      "id": "tenant4",
+      "position": {
+        "x": 820,
+        "y": 600
+      },
+      "icon": "client"
+    },
+    {
+      "id": "tenant3",
+      "position": {
+        "x": 560,
+        "y": 600
+      },
+      "icon": "client"
+    },
+    {
+      "id": "cgnat-leaf1",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 420,
+        "y": 360
+      }
+    },
+    {
+      "id": "cgnat-leaf1-iom1",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 420,
+        "y": 420
+      }
+    },
+    {
+      "id": "cgnat-leaf2",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 900,
+        "y": 360
+      }
+    },
+    {
+      "id": "cgnat-leaf2-iom1",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 900,
+        "y": 420
+      }
+    },
+    {
+      "id": "svc-leaf3",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 300,
+        "y": 380
+      },
+      "labelPosition": "left",
+      "icon": "dcgw"
+    },
+    {
+      "id": "svc-leaf4",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 960,
+        "y": 380
+      },
+      "labelPosition": "right",
+      "icon": "dcgw"
+    },
+    {
+      "id": "svc-leaf3-iom1",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 340,
+        "y": 380
+      }
+    },
+    {
+      "id": "svc-leaf4-iom1",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 920,
+        "y": 380
+      }
+    },
+    {
+      "id": "svc-leaf3-iom2",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 980,
+        "y": 380
+      }
+    },
+    {
+      "id": "svc-leaf4-iom2",
+      "interfacePattern": "1/1/c{n}/1",
+      "position": {
+        "x": 280,
+        "y": 380
+      }
+    },
+    {
+      "id": "grafana",
+      "position": {
+        "x": 320,
+        "y": -20
+      }
+    },
+    {
+      "id": "prometheus",
+      "position": {
+        "x": 400,
+        "y": -20
+      }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {
+    "style": "default",
+    "linkLabelMode": "show-all",
+    "lastNonTelemetryLinkLabelMode": "show-all",
+    "telemetryNodeSizePx": 40,
+    "telemetryInterfaceSizePercent": 100,
+    "showRateLabels": false,
+    "autoCreateTrafficRateAnnotations": false,
+    "gridLineWidth": 0.3,
+    "gridStyle": "dotted",
+    "gridColor": null,
+    "gridBgColor": null
+  }
+}

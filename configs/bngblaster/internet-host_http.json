@@ -1,0 +1,19 @@
+{
+  "interfaces": {
+    "capture-include-streams": true,
+    "network": [
+      {
+        "interface": "eth1",
+        "vlan": 10,
+        "address": "11.0.10.11/24",
+        "gateway": "11.0.10.1"
+      }
+    ]
+  },
+  "http-server": {
+    "network-interface": "eth1",
+    "name": "internet_server",
+    "ipv4-address": "11.0.10.11",
+    "port": 80
+  }
+}

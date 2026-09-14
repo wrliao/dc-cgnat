@@ -1,0 +1,176 @@
+name: dc-cgnat
+topology:
+  kinds:
+    nokia_srsim:
+      image: nokia_srsim:26.7.R1
+      type: SR-1
+      license: ${SROS_LIC_PATH:-/opt/nokia/license/license-srsim26.txt}
+      startup-config: ./configs/sros/__clabNodeName__.cfg
+      env:
+        NOKIA_SROS_MDA_1: me12-100gb-qsfp28 # override default MDA type in slot 1
+        NOKIA_SROS_MDA_2: me12-100gb-qsfp28 # override default MDA type in slot 2
+    nokia_srlinux:
+      image: ghcr.io/nokia/srlinux:26.7.1
+      type: ixr-h5-32d
+      #      license: ${SRL_LIC_PATH:-/opt/nokia/license/license-srl26_7.txt}
+      startup-config: ./configs/srl/__clabNodeName__.json
+    linux:
+      image: ghcr.io/srl-labs/network-multitool:v0.10.0
+      binds:
+        - ./configs/clients:/config
+        - ./configs/bngblaster:/bngblaster
+  nodes:
+    leaf1:
+      kind: nokia_srlinux
+      ports:
+        - 61001:22
+    leaf2:
+      kind: nokia_srlinux
+      ports:
+        - 61002:22
+    svc-leaf3:
+      kind: nokia_srsim
+      type: sr-1e
+      ports:
+        - 61013:22
+    svc-leaf3-iom1:
+      kind: nokia_srsim
+      type: sr-1e
+      network-mode: container:svc-leaf3
+      #enviornment based distributed system definition with card type override
+      env:
+        NOKIA_SROS_SLOT: 1
+        NOKIA_SROS_CARD: iom-e
+        NOKIA_SROS_MDA_1: me10-10gb-sfp+
+        NOKIA_SROS_MDA_2: me-isa2-ms
+        NOKIA_SROS_MDA_3: me-isa2-ms
+        NOKIA_SROS_MDA_4: me-isa2-ms
+    svc-leaf4:
+      kind: nokia_srsim
+      type: sr-1e
+      ports:
+        - 61014:22
+    svc-leaf4-iom1:
+      kind: nokia_srsim
+      type: sr-1e
+      network-mode: container:svc-leaf4
+      #enviornment based distributed system definition with card type override
+      env:
+        NOKIA_SROS_SLOT: 1
+        NOKIA_SROS_CARD: iom-e
+        NOKIA_SROS_MDA_1: me10-10gb-sfp+
+        NOKIA_SROS_MDA_2: me-isa2-ms
+        NOKIA_SROS_MDA_3: me-isa2-ms
+        NOKIA_SROS_MDA_4: me-isa2-ms
+    svc-leaf1:
+      kind: nokia_srsim
+      type: sr-1
+      ports:
+        - 61011:22
+    svc-leaf2:
+      kind: nokia_srsim
+      type: sr-1
+      ports:
+        - 61012:22
+    internet-peer:
+      kind: nokia_srsim
+      type: sr-1
+      ports:
+        - 61015:22
+    tenant1:
+      kind: linux
+      exec:
+        - bash /config/eth1.sh
+        - ip addr add 10.0.10.10/24 dev eth1.10
+        - ip r add 11.0.0.0/8 via 10.0.10.1
+    tenant2:
+      kind: linux
+      exec:
+        - bash /config/eth1.sh
+        - ip addr add 10.0.10.10/24 dev eth1.20
+        - ip r add 11.0.0.0/8 via 10.0.10.1
+    tenant3:
+      kind: linux
+      exec:
+        - bash /config/eth1.sh
+        - ip addr add 10.0.10.10/24 dev eth1.30
+        - ip r add 11.0.0.0/8 via 10.0.10.1
+    tenant4:
+      kind: linux
+      exec:
+        - bash /config/eth1.sh
+        - ip addr add 10.0.10.10/24 dev eth1.40
+        - ip r add 11.0.0.0/8 via 10.0.10.1
+    tenant5:
+      kind: linux
+      exec:
+        - bash /config/eth1.sh
+        - ip addr add 10.0.10.10/24 dev eth1.50
+        - ip r add 11.0.0.0/8 via 10.0.10.1
+    internet-host:
+      kind: linux
+      exec:
+        - bash /config/eth1.sh
+        - ip addr add 11.0.10.10/24 dev eth1.10
+        - ip r add 11.0.0.0/8 via 11.0.10.1
+        - ip r add 21.0.0.0/8 via 11.0.10.1
+        - ip r add 2.0.0.0/8 via 11.0.10.1
+
+    ### TELEMETRY STACK ###
+    gnmic:
+      kind: linux
+      image: ghcr.io/openconfig/gnmic:0.39.1
+      binds:
+        - ./configs/gnmic/gnmic-config.yaml:/gnmic-config.yaml:ro
+      cmd: --config /gnmic-config.yaml --log subscribe
+      group: 10
+
+    prometheus:
+      kind: linux
+      image: prom/prometheus:v2.54.1
+      binds:
+        - ./configs/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      ports:
+        - 9090:9090
+      cmd: --config.file=/etc/prometheus/prometheus.yaml
+      group: 10
+
+    grafana:
+      kind: linux
+      image: grafana/grafana:11.6.3
+      binds:
+        - ./configs/grafana/plugin/andrewbmchugh-flow-panel:/var/lib/grafana/plugins/andrewbmchugh-flow-panel
+        - ./configs/grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+        - ./configs/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+        - ./configs/grafana/dashboards/:/var/lib/grafana/dashboards
+      ports:
+        - 3000:3000
+      env:
+        HTTPS_PROXY: ${http_proxy}
+        GF_ORG_ROLE: Admin
+        GF_ORG_NAME: Main Org
+        GF_AUTH_ANONYMOUS_ENABLED: "true"
+        GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+        GF_AUTH_ANONYMOUS: "true"
+        GF_AUTH_OAUTH_AUTO_LOGIN: "true"
+      group: 10
+
+  links:
+    - endpoints: ["svc-leaf1:1/1/c1/1", "internet-peer:1/1/c1/1"]
+    - endpoints: ["svc-leaf2:1/1/c1/1", "internet-peer:1/1/c2/1"]
+    - endpoints: ["svc-leaf1:1/1/c2/1", "svc-leaf2:1/1/c2/1"]
+    - endpoints: ["svc-leaf1:1/1/c3/1", "leaf1:e1-11"]
+    - endpoints: ["svc-leaf1:1/1/c4/1", "leaf2:e1-11"]
+    - endpoints: ["svc-leaf2:1/1/c3/1", "leaf1:e1-12"]
+    - endpoints: ["svc-leaf2:1/1/c4/1", "leaf2:e1-12"]
+    - endpoints: ["svc-leaf3-iom1:1/1/1", "svc-leaf1:1/1/c11/1"]
+    - endpoints: ["svc-leaf3-iom1:1/1/2", "svc-leaf1:1/1/c12/1"]
+    - endpoints: ["svc-leaf4-iom1:1/1/1", "svc-leaf2:1/1/c11/1"]
+    - endpoints: ["svc-leaf4-iom1:1/1/2", "svc-leaf2:1/1/c12/1"]
+    - endpoints: ["leaf1:e1-1", "tenant1:eth1"]
+    - endpoints: ["leaf2:e1-1", "tenant2:eth1"]
+    - endpoints: ["leaf1:e1-2", "tenant3:eth1"]
+    - endpoints: ["leaf2:e1-2", "tenant4:eth1"]
+    - endpoints: ["leaf1:e1-3", "tenant5:eth1"]
+    - endpoints: ["leaf2:e1-3", "tenant5:eth2"]
+    - endpoints: ["internet-peer:1/1/c3/1", "internet-host:eth1"]

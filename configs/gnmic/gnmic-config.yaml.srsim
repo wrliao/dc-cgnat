@@ -1,0 +1,569 @@
+username: admin
+password: NokiaSros1! 
+insecure: true
+port: 57400
+timeout: 10s
+#skip-verify: true
+#encoding: bytes 
+encoding: json_ietf
+#debug: true
+
+common_srl_subscriptions: &common_srl_subs
+  port: 57400
+  skip-verify: true
+  insecure: false 
+  password: NokiaSrl1!
+  subscriptions:
+  - srl_if_oper_state
+  - srl_net_instance
+  - srl_if_stats 
+  - srl_if_traffic_rate
+  - srl_bgp_stats
+  - srl_cpu
+  - srl_mem
+  - srl_ipv4_routes
+  - srl_ipv6_routes
+  - srl_apps
+
+targets:
+  clab-srv6-srsim-core1:57400: 
+    name: clab-srv6-srsim-core1
+    subscriptions: &common_sros_subs
+    - sros_port_oper_state
+    - sros_port_stats
+    - sros_if_ip_stats
+    - sros_if_v4_stats
+    - sros_if_v6_stats
+    - sros_srpolicy_egress_stats
+    - sros_if_oper_stats
+    - sros_pxc_stats
+    - sros_cpu
+    - sros_mem
+    - sros_bgp_ipv4_routes
+    - sros_bgp_ipv6_routes
+  clab-srv6-srsim-core2:57400: 
+    name: clab-srv6-srsim-core2
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-core3:57400: 
+    name: clab-srv6-srsim-core3
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-core5:57400: 
+    name: clab-srv6-srsim-core5
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-core6:57400: 
+    name: clab-srv6-srsim-core6
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-srv6-pe1:57400: 
+    name: clab-srv6-srsim-srv6-pe1
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-srv6-pe2:57400: 
+    name: clab-srv6-srsim-srv6-pe2
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-srv6-gw1:57400: 
+    name: clab-srv6-srsim-srv6-gw1
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-srv6-gw2:57400: 
+    name: clab-srv6-srsim-srv6-gw2
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-mpls-pe1:57400: 
+    name: clab-srv6-srsim-mpls-pe1
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-mpls-pe2:57400: 
+    name: clab-srv6-srsim-mpls-pe2
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-ce1:57400: 
+    name: clab-srv6-srsim-ce1
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-ce2:57400: 
+    name: clab-srv6-srsim-ce2
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-ce3:57400: 
+    name: clab-srv6-srsim-ce3
+    subscriptions: *common_sros_subs
+  clab-srv6-srsim-ce4:57400: 
+    name: clab-srv6-srsim-ce4
+    subscriptions: *common_sros_subs
+
+subscriptions:
+  ### SRL ###
+  srl_if_oper_state:
+    paths:
+      - /interface[name=ethernet-1/*]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  srl_net_instance:
+    paths:
+      - /network-instance[name=*]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  srl_if_stats:
+    paths:
+      - /interface[name=ethernet-1/*]/statistics
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+  
+  srl_if_traffic_rate:
+    paths:
+      - /interface[name=ethernet-1/*]/traffic-rate
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  srl_cpu:
+    paths:
+      - /platform/control[slot=*]/cpu[index=all]/total
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  srl_mem:
+    paths:
+      - /platform/control[slot=*]/memory
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  srl_bgp_stats:
+    paths:
+      - /network-instance[name=*]/protocols/bgp/statistics
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  srl_ipv4_routes:
+    paths:
+      - /network-instance[name=*]/route-table/ipv4-unicast/statistics/
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  srl_ipv6_routes:
+    paths:
+      - /network-instance[name=*]/route-table/ipv6-unicast/statistics/
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  srl_apps:
+    paths:
+      - /system/app-management/application[name=*]
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+  
+
+  ### SROS ###
+  sros_port_oper_state:
+    paths:
+      - /state/port[port-id=1/1/c1/1]/oper-state
+      - /state/port[port-id=1/1/c2/1]/oper-state
+      - /state/port[port-id=1/1/c3/1]/oper-state
+      - /state/port[port-id=1/1/c4/1]/oper-state
+      - /state/port[port-id=1/1/c5/1]/oper-state
+      - /state/port[port-id=1/1/c6/1]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 5s
+
+  sros_if_oper_state:
+    paths:
+    - /state/router[router-name=*]/interface[interface-name=*]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  sros_ies_instance_oper_state:
+    paths:
+      - /state/service/ies[service-name=*]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  sros_vprn_instance_oper_state:
+    paths:
+      - /state/service/vprn[service-name=*]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  sros_epipe_instance_oper_state:
+    paths:
+      - /state/service/epipe[service-name=*]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  sros_vpls_instance_oper_state:
+    paths:
+      - /state/service/vpls[service-name=*]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  sros_vpls_instance_oper_service_id:
+    paths:
+      - /state/service/vpls[service-name=*]/oper-service-id
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+#  sros_vpls_instance_vxlan:
+#    paths:
+#      - /state/service/vpls[service-name=*]/vxlan
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s
+
+#  sros_vpls_instance_bgp:
+#    paths:
+#      - /state/service/vpls[service-name=*]/bgp
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s
+
+  sros_port_stats:
+    paths:
+    - /state/port[port-id=1/1/c1/1]/ethernet/statistics/out-octets
+    - /state/port[port-id=1/1/c2/1]/ethernet/statistics/out-octets
+    - /state/port[port-id=1/1/c3/1]/ethernet/statistics/out-octets
+    - /state/port[port-id=1/1/c4/1]/ethernet/statistics/out-octets
+    - /state/port[port-id=1/1/c5/1]/ethernet/statistics/out-octets
+    - /state/port[port-id=1/1/c6/1]/ethernet/statistics/out-octets
+    - /state/port[port-id=1/1/c1/1]/ethernet/statistics/in-octets
+    - /state/port[port-id=1/1/c2/1]/ethernet/statistics/in-octets
+    - /state/port[port-id=1/1/c3/1]/ethernet/statistics/in-octets
+    - /state/port[port-id=1/1/c4/1]/ethernet/statistics/in-octets
+    - /state/port[port-id=1/1/c5/1]/ethernet/statistics/in-octets
+    - /state/port[port-id=1/1/c6/1]/ethernet/statistics/in-octets
+    mode: stream
+    stream-mode: sample
+    sample-interval: 5s
+
+  sros_pxc_stats:
+    paths:
+    - /state/port[port-id=pxc-21.a]/statistics/aggregate-queue/egress-forward-octets
+    - /state/port[port-id=pxc-21.a]/statistics/aggregate-queue/ingress-forward-octets
+    - /state/port[port-id=pxc-22.a]/statistics/aggregate-queue/egress-forward-octets
+    - /state/port[port-id=pxc-22.a]/statistics/aggregate-queue/ingress-forward-octets
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s      
+      
+  sros_if_ip_stats:
+    paths:
+    - /state/router[router-name=Base]/interface[interface-name=*]/statistics/ip/in-octets
+    - /state/router[router-name=Base]/interface[interface-name=*]/statistics/ip/out-octets
+    - /state/router[router-name=Base]/interface[interface-name=*]/statistics/ip/in-packets
+    - /state/router[router-name=Base]/interface[interface-name=*]/statistics/ip/out-packets
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  sros_srpolicy_egress_stats:
+    paths:
+    - /state/router[router-name=*]/segment-routing/sr-policies/sr-policy-egress-statistics[color=*][endpoint=*][segment-index=*]/byte-count
+    - /state/router[router-name=*]/segment-routing/sr-policies/sr-policy-egress-statistics[color=*][endpoint=*][segment-index=*]/bits-rate
+    mode: stream
+    stream-mode: sample
+    sample-interval: 5s      
+#  sros_if_mpls_stats:
+#    paths:
+#    - /state/router[router-name=Base]/interface[interface-name=*]/statistics/mpls
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s
+
+  sros_if_v4_stats:
+    paths:
+    - /state/router[router-name=Base]/interface[interface-name=*]/ipv4/statistics/in-octets
+    - /state/router[router-name=Base]/interface[interface-name=*]/ipv4/statistics/out-octets
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  sros_if_v6_stats:
+    paths:
+    - /state/router[router-name=Base]/interface[interface-name=*]/ipv6/statistics/in-octets
+    - /state/router[router-name=Base]/interface[interface-name=*]/ipv6/statistics/out-octets
+    mode: stream
+    stream-mode: sample
+    sample-interval: 10s
+
+  sros_cpu:
+    paths:
+      - /state/system/cpu[sample-period=300]/system/cpu-usage
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_mem:
+    paths:
+      - /state/system/memory-pools
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_service_usage:
+    paths:
+      - /state/system/resource-usage/service
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_sap_usage:
+    paths:
+      - /state/system/resource-usage/sap
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_bgp_stats:
+    paths:
+      - /state/router[router-name=*]/bgp/statistics
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+#  sros_bgp_up_peers:
+#    paths:
+#      - state/router[router-name=*]/bgp/convergence/family[family-type=ipv4]
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s
+
+  sros_bgp_neighbor_stats:
+    paths:
+      - /state/router[router-name=*]/bgp/neighbor[ip-address=*]/statistics
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_bgp_neighbor_session_state:
+    paths:
+      - /state/router[router-name=*]/bgp/neighbor[ip-address=*]/statistics/session-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_bgp_ipv4_routes:
+    paths:
+      - /state/router[router-name=Base]/bgp/statistics/routes-per-family/ipv4/remote-active-routes
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_bgp_ipv6_routes:
+    paths:
+      - /state/router[router-name=Base]/bgp/statistics/routes-per-family/ipv6/remote-active-routes
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_bgp_vpn_ipv4_routes:
+    paths:
+      - /state/router[router-name=Base]/bgp/statistics/routes-per-family/vpn-ipv4/remote-active-routes
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_bgp_vpn_ipv6_routes:
+    paths:
+      - /state/router[router-name=Base]/bgp/statistics/routes-per-family/vpn-ipv6/remote-active-routes
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_ipv4_stats:
+    paths:
+      - /state/router[router-name=*]/route-table/unicast/ipv4/statistics
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_ipv4_stats_direct:
+    paths:
+      - /state/router[router-name=*]/route-table/unicast/ipv4/statistics/direct
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_ipv4_stats_bgp:
+    paths:
+      - /state/router[router-name=*]/route-table/unicast/ipv4/statistics/bgp
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_ipv6_stats:
+    paths:
+      - /state/router[router-name=*]/route-table/unicast/ipv6/statistics
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_ipv6_stats_direct:
+    paths:
+      - /state/router[router-name=*]/route-table/unicast/ipv6/statistics/direct
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+  sros_ipv6_stats_bgp:
+    paths:
+      - /state/router[router-name=*]/route-table/unicast/ipv6/statistics/bgp
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+#  sros_ipv4_routes:
+#    paths:
+#      - /state/router[router-name=*]/route-table/unicast/ipv4/route[ipv4-prefix=*]
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s
+
+#  sros_ipv6_routes:
+#    paths:
+#      - /state/router[router-name=*]/route-table/unicast/ipv6/route[ipv6-prefix=*]
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s
+
+  sros_evpn_routes_stats:
+    paths:
+      - /state/router[router-name=*]/bgp/statistics/routes-per-family/evpn
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s
+
+#  sros_evpn_vxlan_vni:
+#    paths:
+#      - /state/service/vpls[service-name=*]/vxlan/instance[vxlan-instance=*]/destinations/non-ethernet-segment-destination[ip-address=*][vni=*]
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s
+
+#  sros_vxlan_vteps:
+#    paths:
+#      - /state/service/vxlan/tep[ip-address=*]
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s
+
+  sros_learned_fdb_stats:
+    paths:
+      - /state/service/vpls[service-name=*]/fdb/statistics
+    mode: stream
+    stream-mode: sample
+    sample-interval: 30s   
+ 
+#  sros_bgp_routes_active:
+#    paths:
+#      - /state/router[router-name=*]/bgp/neighbor[ip-address=*]/statistics/family-prefix/ipv4/active
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s 
+
+#  sros_bgp_used_routes:
+#    paths:
+#      - /state/router[router-name=*]/bgp/rib/ipv6-unicast/local-rib/routes[prefix=*][neighbor=*][owner=*][router-instance-origin=*][path-id=*]/used-route
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s 
+
+#  sros_bgp_evpn_routes_active:
+#    paths:
+#      - /state/router[router-name=*]/bgp/neighbor[ip-address=*]/statistics/family-prefix/evpn/active
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s 
+
+#  sros_bgp_evpn_routes_suppressed:
+#    paths:
+#      - /state/router[router-name=*]/bgp/neighbor[ip-address=*]/statistics/family-prefix/evpn/suppressed
+#    mode: stream
+#    stream-mode: sample
+#    sample-interval: 10s 
+  
+outputs:
+  prom:
+    type: prometheus
+    listen: :9273
+    path: /metrics
+    metric-prefix: gnmic
+    append-subscription-name: true
+    # expiration: 60s
+    debug: false
+    export-timestamps: true
+    event-processors:
+      - trim-prefixes
+      - up-down-map
+      - rename-port-sros
+      - rename-port-value-sros
+      - rename-srl-interface
+#  stdout:
+#    type: file
+#    file-type: stdout
+#    format: event
+#    event-processors:
+#      - trim-prefixes
+
+processors:
+  trim-prefixes:
+    event-strings:
+      value-names:
+        - ".*"
+      transforms:
+        - path-base:
+            apply-on: "name"
+#        - trim-prefix:
+#            apply-on: "name"
+#            prefix: "/state/port[port-id=*]/"
+#        - trim-prefix:
+#            apply-on: "name"
+#            prefix: "/state/port[port-id=*]/ethernet/statistics/"
+  rename-port-sros:
+    event-strings:
+      tag-names:
+        - "^port_port-id"
+      transforms:
+        - replace:
+            apply-on: "name"
+            old: "port_port-id"
+            new: "interface_name"
+  rename-port-value-sros:
+    event-strings:
+      tag-names:
+        - "^interface_name"
+      transforms:
+        - replace:
+            apply-on: "value"
+            old: "^1/1/c(\\d+)/(\\d+)"
+            new: "e1-1-c$1-$2"
+  rename-srl-interface:
+    event-strings:
+      tag-names:
+        - "^interface_name"
+      transforms:
+        - replace:
+            apply-on: "value"
+            old: "ethernet-(\\d+)/(\\d+)"
+            new: "e$1-$2"
+  up-down-map:
+    event-strings:
+      value-names:
+        - oper-state
+      transforms:
+        - replace:
+            apply-on: "value"
+            old: "up"
+            new: "1"
+        - replace:
+            apply-on: "value"
+            old: "down"
+            new: "0"

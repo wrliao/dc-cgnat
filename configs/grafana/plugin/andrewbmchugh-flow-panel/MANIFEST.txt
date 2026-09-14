@@ -1,0 +1,38 @@
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+{
+  "manifestVersion": "2.0.0",
+  "signatureType": "community",
+  "signedByOrg": "andrewbmchugh",
+  "signedByOrgName": "andrewbmchugh",
+  "plugin": "andrewbmchugh-flow-panel",
+  "version": "1.18.2",
+  "time": 1747651033692,
+  "keyId": "7e4d0c6a708866e7",
+  "files": {
+    "img/example1.png": "b1f48ee8cf84f3b881973fd7f7e88bf0b92909bc48d2d60ce4ba7746b0391dca",
+    "img/threadHighlighting.gif": "042293857f9e008315a0c95cb0b0598a4614be3db345faa373dd10f63647b3c9",
+    "img/logo.png": "9e005680bc43bd05e1f767f02d62898c6653fbb25e962fa9f255c677f5fc6980",
+    "img/example2.png": "24570f0edc2a9e8dee5838e68df22f6deaca725e1230202a6bdab3b0cdb23494",
+    "module.js.LICENSE.txt": "89e2163014043b5340229aaa93eb5dc845f40e77b2d6419008f58f2be0e29338",
+    "LICENSE": "aa9d8d6a20b2c2740cec973485eb69353738385081acfd295be046e71ee3ec08",
+    "README.md": "939db718505d4dd082fc19f7333114c84f9d142318337498bff10cb5b26437c9",
+    "module.js": "d69031ccfa24d64d8e643d4ba33fb02abdf5eaebe595162fb2b97f6079a75636",
+    "CHANGELOG.md": "5f9022d71024bbf45cec8ae870cd920e0b12cc6bd2e7f654d3ccf514d8d39687",
+    "module.js.map": "2cda50cdc5979f609d00aa21dfad93092903db1021668d0b1a92bd84b8ffb0c8",
+    "plugin.json": "d7ff29d56118bb52da18d30f1f035e40d72b0e747e92a265014b2b3715d944f8"
+  }
+}
+-----BEGIN PGP SIGNATURE-----
+Version: OpenPGP.js v4.10.11
+Comment: https://openpgpjs.org
+
+wrkEARMKAAYFAmgrCdkAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm5yw3AgkAoxl0Dcaz5LbHQW4lAQfWxWcF1f/r/L838ljxPngZzjBbqII6
+HJ9vn55JkzR7a0T08vsHFo4ZoZPS4uIbbFxvk+gCCQAtWNwkA6V/Rk0nIeZB
+169UBLv/F5qtSYyuQkhjQwjcpjiSTADOJxYZxGTYHRpa6Xxi5D9gpCvHHzI+
+j5CSXpiPzA==
+=0hHy
+-----END PGP SIGNATURE-----

@@ -1,0 +1,30 @@
+{
+  "interfaces": {
+    "capture-include-streams": true,
+    "access": [
+      {
+        "interface": "eth1",
+        "type": "ipoe",
+        "vlan-mode": "N:1",
+        "outer-vlan": 10,
+        "address": "10.0.10.11",
+        "address-iter": "0.0.0.1",
+        "gateway": "10.0.10.1",
+        "gateway-iter": "0.0.0.0",
+	"http-client-group-id": 10,
+        "ipv6": false,
+	"dhcp": false,
+	"dhcpv6": false
+      }
+    ]
+  },
+  "http-client": {
+    "http-client-group-id": 1,
+    "name": "tenant_1",
+    "url": "www.nokia.com",
+    "destination-ipv4-address": "11.0.10.11",
+    "destination-port": 80,
+    "start-delay": 1,
+    "autostart": true 
+  }
+}

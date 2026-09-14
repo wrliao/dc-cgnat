@@ -1,0 +1,505 @@
+---
+anchors:
+  thresholds-operstate: &thresholds-operstate
+    - { color: "red", level: 0 }
+    - { color: "green", level: 1 }
+  thresholds-traffic: &thresholds-traffic
+    - { color: "gray", level: 0 }
+    - { color: "green", level: 199999 }
+    - { color: "yellow", level: 500000 }
+    - { color: "orange", level: 1000000 }
+    - { color: "red", level: 5000000 }
+  thresholds-rate-label: &thresholds-rate-label
+    - { color: "white", level: 0 }
+  label-config: &label-config
+    separator: "replace"
+    units: "bps"
+    decimalPoints: 1
+    valueMappings:
+      - { valueMax: 199999, text: "\u200B" }
+cellIdPreamble: "cell-"
+tagConfig:
+  legend: ["hide-rates"]
+  lowlightAlphaFactor: 0
+  highlightRgbFactor: 1
+cells:
+  "svc-leaf1:1/1/c1/1":
+    dataRef: "oper-state:svc-leaf1:1/1/c1/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "internet-peer:1/1/c1/1":
+    dataRef: "oper-state:internet-peer:1/1/c1/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c1/1:internet-peer:1/1/c1/1":
+    dataRef: "svc-leaf1:1/1/c1/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c1/1:internet-peer:1/1/c1/1:label":
+    dataRef: "svc-leaf1:1/1/c1/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:internet-peer:1/1/c1/1:svc-leaf1:1/1/c1/1":
+    dataRef: "internet-peer:1/1/c1/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:internet-peer:1/1/c1/1:svc-leaf1:1/1/c1/1:label":
+    dataRef: "internet-peer:1/1/c1/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf2:1/1/c1/1":
+    dataRef: "oper-state:svc-leaf2:1/1/c1/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "internet-peer:1/1/c2/1":
+    dataRef: "oper-state:internet-peer:1/1/c2/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c1/1:internet-peer:1/1/c2/1":
+    dataRef: "svc-leaf2:1/1/c1/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c1/1:internet-peer:1/1/c2/1:label":
+    dataRef: "svc-leaf2:1/1/c1/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:internet-peer:1/1/c2/1:svc-leaf2:1/1/c1/1":
+    dataRef: "internet-peer:1/1/c2/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:internet-peer:1/1/c2/1:svc-leaf2:1/1/c1/1:label":
+    dataRef: "internet-peer:1/1/c2/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf1:1/1/c2/1":
+    dataRef: "oper-state:svc-leaf1:1/1/c2/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "svc-leaf2:1/1/c2/1":
+    dataRef: "oper-state:svc-leaf2:1/1/c2/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c2/1:svc-leaf2:1/1/c2/1":
+    dataRef: "svc-leaf1:1/1/c2/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c2/1:svc-leaf2:1/1/c2/1:label":
+    dataRef: "svc-leaf1:1/1/c2/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:svc-leaf2:1/1/c2/1:svc-leaf1:1/1/c2/1":
+    dataRef: "svc-leaf2:1/1/c2/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c2/1:svc-leaf1:1/1/c2/1:label":
+    dataRef: "svc-leaf2:1/1/c2/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf1:1/1/c3/1":
+    dataRef: "oper-state:svc-leaf1:1/1/c3/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "leaf1:e1-11":
+    dataRef: "oper-state:leaf1:e1-11"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c3/1:leaf1:e1-11":
+    dataRef: "svc-leaf1:1/1/c3/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c3/1:leaf1:e1-11:label":
+    dataRef: "svc-leaf1:1/1/c3/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:leaf1:e1-11:svc-leaf1:1/1/c3/1":
+    dataRef: "leaf1:e1-11:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:leaf1:e1-11:svc-leaf1:1/1/c3/1:label":
+    dataRef: "leaf1:e1-11:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf1:1/1/c4/1":
+    dataRef: "oper-state:svc-leaf1:1/1/c4/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "leaf2:e1-11":
+    dataRef: "oper-state:leaf2:e1-11"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c4/1:leaf2:e1-11":
+    dataRef: "svc-leaf1:1/1/c4/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c4/1:leaf2:e1-11:label":
+    dataRef: "svc-leaf1:1/1/c4/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:leaf2:e1-11:svc-leaf1:1/1/c4/1":
+    dataRef: "leaf2:e1-11:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:leaf2:e1-11:svc-leaf1:1/1/c4/1:label":
+    dataRef: "leaf2:e1-11:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf2:1/1/c3/1":
+    dataRef: "oper-state:svc-leaf2:1/1/c3/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "leaf1:e1-12":
+    dataRef: "oper-state:leaf1:e1-12"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c3/1:leaf1:e1-12":
+    dataRef: "svc-leaf2:1/1/c3/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c3/1:leaf1:e1-12:label":
+    dataRef: "svc-leaf2:1/1/c3/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:leaf1:e1-12:svc-leaf2:1/1/c3/1":
+    dataRef: "leaf1:e1-12:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:leaf1:e1-12:svc-leaf2:1/1/c3/1:label":
+    dataRef: "leaf1:e1-12:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf2:1/1/c4/1":
+    dataRef: "oper-state:svc-leaf2:1/1/c4/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "leaf2:e1-12":
+    dataRef: "oper-state:leaf2:e1-12"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c4/1:leaf2:e1-12":
+    dataRef: "svc-leaf2:1/1/c4/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c4/1:leaf2:e1-12:label":
+    dataRef: "svc-leaf2:1/1/c4/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:leaf2:e1-12:svc-leaf2:1/1/c4/1":
+    dataRef: "leaf2:e1-12:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:leaf2:e1-12:svc-leaf2:1/1/c4/1:label":
+    dataRef: "leaf2:e1-12:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf3-iom1:1/1/1":
+    dataRef: "oper-state:svc-leaf3-iom1:1/1/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "svc-leaf1:1/1/c11/1":
+    dataRef: "oper-state:svc-leaf1:1/1/c11/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf3-iom1:1/1/1:svc-leaf1:1/1/c11/1":
+    dataRef: "svc-leaf3-iom1:1/1/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf3-iom1:1/1/1:svc-leaf1:1/1/c11/1:label":
+    dataRef: "svc-leaf3-iom1:1/1/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:svc-leaf1:1/1/c11/1:svc-leaf3-iom1:1/1/1":
+    dataRef: "svc-leaf1:1/1/c11/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c11/1:svc-leaf3-iom1:1/1/1:label":
+    dataRef: "svc-leaf1:1/1/c11/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf3-iom1:1/1/2":
+    dataRef: "oper-state:svc-leaf3-iom1:1/1/2"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "svc-leaf1:1/1/c12/1":
+    dataRef: "oper-state:svc-leaf1:1/1/c12/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf3-iom1:1/1/2:svc-leaf1:1/1/c12/1":
+    dataRef: "svc-leaf3-iom1:1/1/2:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf3-iom1:1/1/2:svc-leaf1:1/1/c12/1:label":
+    dataRef: "svc-leaf3-iom1:1/1/2:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:svc-leaf1:1/1/c12/1:svc-leaf3-iom1:1/1/2":
+    dataRef: "svc-leaf1:1/1/c12/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf1:1/1/c12/1:svc-leaf3-iom1:1/1/2:label":
+    dataRef: "svc-leaf1:1/1/c12/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf4-iom1:1/1/1":
+    dataRef: "oper-state:svc-leaf4-iom1:1/1/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "svc-leaf2:1/1/c11/1":
+    dataRef: "oper-state:svc-leaf2:1/1/c11/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf4-iom1:1/1/1:svc-leaf2:1/1/c11/1":
+    dataRef: "svc-leaf4-iom1:1/1/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf4-iom1:1/1/1:svc-leaf2:1/1/c11/1:label":
+    dataRef: "svc-leaf4-iom1:1/1/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:svc-leaf2:1/1/c11/1:svc-leaf4-iom1:1/1/1":
+    dataRef: "svc-leaf2:1/1/c11/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c11/1:svc-leaf4-iom1:1/1/1:label":
+    dataRef: "svc-leaf2:1/1/c11/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "svc-leaf4-iom1:1/1/2":
+    dataRef: "oper-state:svc-leaf4-iom1:1/1/2"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "svc-leaf2:1/1/c12/1":
+    dataRef: "oper-state:svc-leaf2:1/1/c12/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:svc-leaf4-iom1:1/1/2:svc-leaf2:1/1/c12/1":
+    dataRef: "svc-leaf4-iom1:1/1/2:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf4-iom1:1/1/2:svc-leaf2:1/1/c12/1:label":
+    dataRef: "svc-leaf4-iom1:1/1/2:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:svc-leaf2:1/1/c12/1:svc-leaf4-iom1:1/1/2":
+    dataRef: "svc-leaf2:1/1/c12/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:svc-leaf2:1/1/c12/1:svc-leaf4-iom1:1/1/2:label":
+    dataRef: "svc-leaf2:1/1/c12/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "leaf1:e1-1":
+    dataRef: "oper-state:leaf1:e1-1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "tenant1:eth1":
+    dataRef: "oper-state:tenant1:eth1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:leaf1:e1-1:tenant1:eth1":
+    dataRef: "leaf1:e1-1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:leaf1:e1-1:tenant1:eth1:label":
+    dataRef: "leaf1:e1-1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:tenant1:eth1:leaf1:e1-1":
+    dataRef: "tenant1:eth1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:tenant1:eth1:leaf1:e1-1:label":
+    dataRef: "tenant1:eth1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "leaf2:e1-1":
+    dataRef: "oper-state:leaf2:e1-1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "tenant2:eth1":
+    dataRef: "oper-state:tenant2:eth1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:leaf2:e1-1:tenant2:eth1":
+    dataRef: "leaf2:e1-1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:leaf2:e1-1:tenant2:eth1:label":
+    dataRef: "leaf2:e1-1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:tenant2:eth1:leaf2:e1-1":
+    dataRef: "tenant2:eth1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:tenant2:eth1:leaf2:e1-1:label":
+    dataRef: "tenant2:eth1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "leaf1:e1-2":
+    dataRef: "oper-state:leaf1:e1-2"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "tenant3:eth1":
+    dataRef: "oper-state:tenant3:eth1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:leaf1:e1-2:tenant3:eth1":
+    dataRef: "leaf1:e1-2:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:leaf1:e1-2:tenant3:eth1:label":
+    dataRef: "leaf1:e1-2:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:tenant3:eth1:leaf1:e1-2":
+    dataRef: "tenant3:eth1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:tenant3:eth1:leaf1:e1-2:label":
+    dataRef: "tenant3:eth1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "leaf2:e1-2":
+    dataRef: "oper-state:leaf2:e1-2"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "tenant4:eth1":
+    dataRef: "oper-state:tenant4:eth1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:leaf2:e1-2:tenant4:eth1":
+    dataRef: "leaf2:e1-2:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:leaf2:e1-2:tenant4:eth1:label":
+    dataRef: "leaf2:e1-2:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:tenant4:eth1:leaf2:e1-2":
+    dataRef: "tenant4:eth1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:tenant4:eth1:leaf2:e1-2:label":
+    dataRef: "tenant4:eth1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "internet-peer:1/1/c3/1":
+    dataRef: "oper-state:internet-peer:1/1/c3/1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "internet-host:eth1":
+    dataRef: "oper-state:internet-host:eth1"
+    fillColor:
+      thresholds: *thresholds-operstate
+    tags: ["hide-rates"]
+  "link_id:internet-peer:1/1/c3/1:internet-host:eth1":
+    dataRef: "internet-peer:1/1/c3/1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:internet-peer:1/1/c3/1:internet-host:eth1:label":
+    dataRef: "internet-peer:1/1/c3/1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
+  "link_id:internet-host:eth1:internet-peer:1/1/c3/1":
+    dataRef: "internet-host:eth1:out"
+    strokeColor:
+      thresholds: *thresholds-traffic
+    tags: ["hide-rates"]
+  "link_id:internet-host:eth1:internet-peer:1/1/c3/1:label":
+    dataRef: "internet-host:eth1:out"
+    label: *label-config
+    labelColor:
+      thresholds: *thresholds-rate-label
