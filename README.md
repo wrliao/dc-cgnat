@@ -7,8 +7,173 @@ In this lab setup, Nokia Srlinux nodes are positioned as DC leaf connected to te
   * Service-leaf1/2 supports the EVPN type 5 IFL (interface less) over VXLAN (toward DC leaf) and IPVPN stitching services. service-leaf3/4 supports both per tenant VRF and internet VRF for NAT outside pool advertisement toward Internet Peering router.
   * Both stateless (nat-group 1) and stateful (nat-group 2) multl-chassis CGNAT redudancy are enable in service-leaf3 and 4. 
 
+* bngblaster container is used as per tenant host emulation with both icmp and http traffic generation toward internet-host. 
+  * tenant1 is running over ip-vrf-tenant1 (service-id 10001 in SROS) from leaf1 to service-leaf 1/2 using EVPN type 5 IFL over VXLAN
+  * tenant2 is runnig over ip-vrf-tenant2 (service-id 10002 in SROS) from leaf2 to service-leaf1/2 using EVPN type 5 IFL over VXLAN
+  * internet VRF is using service-id 1001 between service-leaf3/4 and internet-peer and running over GRE tunnel using MPLS IPVPN.
+ 
+** Deploying the lab **
+
+``` 
+#clone repository
+git clone https://github.com/wrliao/dc-cgnat.git
+```
+``` 
+#deploy containerlab topology
+clab deploy -t dc-cgnat.clab.yml
+``` 
+``` 
+16:41:24 INFO Containerlab started version=0.79.0
+16:41:24 INFO Parsing & checking topology file=dc-cgnat.clab.yml
+16:41:24 INFO Creating docker network name=clab IPv4 subnet=172.20.20.0/24 IPv6 subnet=3fff:172:20:20::/64 MTU=0
+16:41:24 INFO Creating lab directory path=/home/liao/clab/clab-configs/clab-dc-cgnat/clab-dc-cgnat
+16:41:24 INFO Creating container name=internet-host
+16:41:24 INFO Creating container name=tenant1
+16:41:24 INFO Creating container name=tenant2
+16:41:24 INFO Creating container name=tenant3
+16:41:24 INFO Creating container name=tenant4
+16:41:24 INFO Creating container name=leaf1
+16:41:24 INFO Creating container name=leaf2
+16:41:25 INFO Retrieved SR OS version from image node=internet-peer version=26.7.1
+16:41:25 INFO Creating container name=internet-peer
+16:41:25 INFO Retrieved SR OS version from image node=svc-leaf3 version=26.7.1
+16:41:25 INFO Creating container name=svc-leaf3
+16:41:25 INFO Created link: leaf1:e1-11 ▪┄┄▪ host:clab-s-b43723ba
+16:41:25 INFO Created link: leaf2:e1-11 ▪┄┄▪ host:clab-s-17cac4d1
+16:41:25 INFO Created link: leaf1:e1-12 ▪┄┄▪ host:clab-s-965bf4fa
+16:41:25 INFO Created link: leaf1:e1-1 ▪┄┄▪ tenant1:eth1
+16:41:25 INFO Created link: leaf2:e1-12 ▪┄┄▪ host:clab-s-d860cb87
+16:41:25 INFO Created link: leaf2:e1-1 ▪┄┄▪ tenant2:eth1
+16:41:25 INFO Created link: leaf1:e1-2 ▪┄┄▪ tenant3:eth1
+16:41:26 INFO Created link: internet-host:eth1 ▪┄┄▪ host:clab-s-c87fc0e0
+16:41:26 INFO Running postdeploy actions kind=nokia_srlinux node=leaf1
+16:41:26 INFO Running postdeploy actions kind=nokia_srlinux node=leaf2
+16:41:26 INFO Created link: internet-peer:e1-1-c1-1 (1/1/c1/1) ▪┄┄▪ host:clab-s-4250d7a0
+16:41:26 INFO Created link: internet-peer:e1-1-c2-1 (1/1/c2/1) ▪┄┄▪ host:clab-s-aaeda20c
+16:41:26 INFO Creating container name=gnmic
+16:41:26 INFO Created link: internet-peer:e1-1-c3-1 (1/1/c3/1) ▪┄┄▪ host:clab-s-6ed9b91a
+16:41:26 INFO Creating container name=prometheus
+16:41:26 INFO Running postdeploy actions kind=nokia_srsim node=internet-peer
+16:41:26 INFO Created link: leaf2:e1-2 ▪┄┄▪ tenant4:eth1
+16:41:26 INFO Running postdeploy actions kind=nokia_srsim node=svc-leaf3
+16:41:26 INFO Retrieved SR OS version from image node=svc-leaf4 version=26.7.1
+16:41:26 INFO Creating container name=svc-leaf4
+16:41:26 INFO Creating container name=grafana
+16:41:26 INFO Retrieved SR OS version from image node=svc-leaf2 version=26.7.1
+16:41:26 INFO Creating container name=svc-leaf2
+16:41:26 INFO Retrieved SR OS version from image node=svc-leaf1 version=26.7.1
+16:41:26 INFO Creating container name=svc-leaf1
+16:41:27 INFO Creating container name=tenant5
+16:41:27 INFO Running postdeploy actions kind=nokia_srsim node=svc-leaf4
+16:41:27 INFO Creating container name=svc-leaf3-iom1
+16:41:27 INFO Created link: svc-leaf2:e1-1-c1-1 (1/1/c1/1) ▪┄┄▪ host:clab-s-34de1f96
+16:41:28 INFO Created link: svc-leaf2:e1-1-c2-1 (1/1/c2/1) ▪┄┄▪ host:clab-s-248b40f4
+16:41:28 INFO Created link: svc-leaf2:e1-1-c3-1 (1/1/c3/1) ▪┄┄▪ host:clab-s-b9e4c925
+16:41:28 INFO Created link: svc-leaf1:e1-1-c1-1 (1/1/c1/1) ▪┄┄▪ host:clab-s-6e41364e
+16:41:28 INFO Created link: svc-leaf2:e1-1-c4-1 (1/1/c4/1) ▪┄┄▪ host:clab-s-83ccf88a
+16:41:28 INFO Created link: svc-leaf3-iom1:e1-1-1 (1/1/1) ▪┄┄▪ host:clab-s-9f6f3540
+16:41:28 INFO Created link: svc-leaf2:e1-1-c11-1 (1/1/c11/1) ▪┄┄▪ host:clab-s-50a79ec6
+16:41:28 INFO Created link: svc-leaf3-iom1:e1-1-2 (1/1/2) ▪┄┄▪ host:clab-s-13d14a69
+16:41:28 INFO Running postdeploy actions kind=nokia_srsim node=svc-leaf3-iom1
+16:41:28 INFO Created link: svc-leaf1:e1-1-c2-1 (1/1/c2/1) ▪┄┄▪ host:clab-s-ad59c81b
+16:41:28 INFO Created link: svc-leaf2:e1-1-c12-1 (1/1/c12/1) ▪┄┄▪ host:clab-s-8502ab66
+16:41:28 INFO Running postdeploy actions kind=nokia_srsim node=svc-leaf2
+16:41:28 INFO Created link: svc-leaf1:e1-1-c3-1 (1/1/c3/1) ▪┄┄▪ host:clab-s-4c8c078f
+16:41:28 INFO Created link: svc-leaf1:e1-1-c4-1 (1/1/c4/1) ▪┄┄▪ host:clab-s-eaf7bf8e
+16:41:28 INFO Created link: svc-leaf1:e1-1-c11-1 (1/1/c11/1) ▪┄┄▪ host:clab-s-e30265b9
+16:41:28 INFO Created link: svc-leaf1:e1-1-c12-1 (1/1/c12/1) ▪┄┄▪ host:clab-s-1df71dca
+16:41:28 INFO Running postdeploy actions kind=nokia_srsim node=svc-leaf1
+16:41:28 INFO Created link: leaf1:e1-3 ▪┄┄▪ tenant5:eth1
+16:41:28 INFO Created link: leaf2:e1-3 ▪┄┄▪ tenant5:eth2
+16:41:28 INFO Creating container name=svc-leaf4-iom1
+16:41:29 INFO Created link: svc-leaf4-iom1:e1-1-1 (1/1/1) ▪┄┄▪ host:clab-s-c54147ad
+16:41:29 INFO Created link: svc-leaf4-iom1:e1-1-2 (1/1/2) ▪┄┄▪ host:clab-s-1dabafdc
+16:41:29 INFO Running postdeploy actions kind=nokia_srsim node=svc-leaf4-iom1
+16:41:43 INFO Executed command node=tenant1 command="bash /config/eth1.sh" stdout=""
+16:41:43 INFO Executed command node=tenant1 command="ip addr add 10.0.10.10/24 dev eth1.10" stdout=""
+16:41:43 INFO Executed command node=tenant3 command="bash /config/eth1.sh" stdout=""
+16:41:43 INFO Executed command node=tenant2 command="bash /config/eth1.sh" stdout=""
+16:41:43 INFO Executed command node=internet-host command="bash /config/eth1.sh" stdout=""
+16:41:43 INFO Executed command node=tenant2 command="ip addr add 10.0.10.10/24 dev eth1.20" stdout=""
+16:41:43 INFO Executed command node=tenant3 command="ip addr add 10.0.10.10/24 dev eth1.30" stdout=""
+16:41:43 INFO Executed command node=tenant1 command="ip r add 11.0.0.0/8 via 10.0.10.1" stdout=""
+16:41:43 INFO Executed command node=tenant2 command="ip r add 11.0.0.0/8 via 10.0.10.1" stdout=""
+16:41:43 INFO Executed command node=internet-host command="ip addr add 11.0.10.10/24 dev eth1.10" stdout=""
+16:41:43 INFO Executed command node=tenant3 command="ip r add 11.0.0.0/8 via 10.0.10.1" stdout=""
+16:41:43 INFO Executed command node=internet-host command="ip r add 11.0.0.0/8 via 11.0.10.1" stdout=""
+16:41:43 INFO Executed command node=internet-host command="ip r add 21.0.0.0/8 via 11.0.10.1" stdout=""
+16:41:43 INFO Executed command node=tenant4 command="bash /config/eth1.sh" stdout=""
+16:41:43 INFO Executed command node=tenant4 command="ip addr add 10.0.10.10/24 dev eth1.40" stdout=""
+16:41:43 INFO Executed command node=internet-host command="ip r add 2.0.0.0/8 via 11.0.10.1" stdout=""
+16:41:43 INFO Executed command node=tenant4 command="ip r add 11.0.0.0/8 via 10.0.10.1" stdout=""
+16:41:43 INFO Executed command node=tenant5 command="bash /config/eth1.sh" stdout=""
+16:41:43 INFO Executed command node=tenant5 command="ip addr add 10.0.10.10/24 dev eth1.50" stdout=""
+16:41:43 INFO Executed command node=tenant5 command="ip r add 11.0.0.0/8 via 10.0.10.1" stdout=""
+16:41:43 INFO Adding host entries path=/etc/hosts
+16:41:43 INFO Adding SSH config for nodes path=/etc/ssh/ssh_config.d/clab-dc-cgnat.conf
+╭──────────────────────────────┬────────────────────────────────────────────┬─────────┬────────────────────╮
+│             Name             │                 Kind/Image                 │  State  │   IPv4/6 Address   │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-gnmic          │ linux                                      │ running │ 172.20.20.11       │
+│                              │ ghcr.io/openconfig/gnmic:0.39.1            │         │ 3fff:172:20:20::b  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-grafana        │ linux                                      │ running │ 172.20.20.14       │
+│                              │ grafana/grafana:11.6.3                     │         │ 3fff:172:20:20::e  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-internet-host  │ linux                                      │ running │ 172.20.20.7        │
+│                              │ ghcr.io/srl-labs/network-multitool:v0.10.0 │         │ 3fff:172:20:20::7  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-internet-peer  │ nokia_srsim                                │ running │ 172.20.20.8        │
+│                              │ nokia_srsim:26.7.R1                        │         │ 3fff:172:20:20::8  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-leaf1          │ nokia_srlinux                              │ running │ 172.20.20.2        │
+│                              │ ghcr.io/nokia/srlinux:26.7.1               │         │ 3fff:172:20:20::2  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-leaf2          │ nokia_srlinux                              │ running │ 172.20.20.3        │
+│                              │ ghcr.io/nokia/srlinux:26.7.1               │         │ 3fff:172:20:20::3  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-prometheus     │ linux                                      │ running │ 172.20.20.12       │
+│                              │ prom/prometheus:v2.54.1                    │         │ 3fff:172:20:20::c  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-svc-leaf1      │ nokia_srsim                                │ running │ 172.20.20.16       │
+│                              │ nokia_srsim:26.7.R1                        │         │ 3fff:172:20:20::10 │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-svc-leaf2      │ nokia_srsim                                │ running │ 172.20.20.15       │
+│                              │ nokia_srsim:26.7.R1                        │         │ 3fff:172:20:20::f  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-svc-leaf3      │ nokia_srsim                                │ running │ 172.20.20.10       │
+│                              │ nokia_srsim:26.7.R1                        │         │ 3fff:172:20:20::a  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-svc-leaf3-iom1 │ nokia_srsim                                │ running │ N/A                │
+│                              │ nokia_srsim:26.7.R1                        │         │ N/A                │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-svc-leaf4      │ nokia_srsim                                │ running │ 172.20.20.13       │
+│                              │ nokia_srsim:26.7.R1                        │         │ 3fff:172:20:20::d  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-svc-leaf4-iom1 │ nokia_srsim                                │ running │ N/A                │
+│                              │ nokia_srsim:26.7.R1                        │         │ N/A                │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-tenant1        │ linux                                      │ running │ 172.20.20.5        │
+│                              │ ghcr.io/srl-labs/network-multitool:v0.10.0 │         │ 3fff:172:20:20::5  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-tenant2        │ linux                                      │ running │ 172.20.20.4        │
+│                              │ ghcr.io/srl-labs/network-multitool:v0.10.0 │         │ 3fff:172:20:20::4  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-tenant3        │ linux                                      │ running │ 172.20.20.6        │
+│                              │ ghcr.io/srl-labs/network-multitool:v0.10.0 │         │ 3fff:172:20:20::6  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-tenant4        │ linux                                      │ running │ 172.20.20.9        │
+│                              │ ghcr.io/srl-labs/network-multitool:v0.10.0 │         │ 3fff:172:20:20::9  │
+├──────────────────────────────┼────────────────────────────────────────────┼─────────┼────────────────────┤
+│ clab-dc-cgnat-tenant5        │ linux                                      │ running │ 172.20.20.17       │
+│                              │ ghcr.io/srl-labs/network-multitool:v0.10.0 │         │ 3fff:172:20:20::11 │
+╰──────────────────────────────┴────────────────────────────────────────────┴─────────┴────────────────────╯
+``` 
+
+** CGNAT Lab information
 
 * tenant1 ip-vrf EVPN type 5 IFL over VXLAN in leaf1
+
 ``` 
 A:admin@leaf1# show network-instance ip-vrf-tenant-1 ipv4 route
 ======================================================================================================
@@ -30,6 +195,7 @@ Prefix               Route Type   Metric   Pref    Flags    Next-Hop(s)
 11.254.2.3/32        bgp-evpn     0        170     >        2.2.2.1(tunnel:vxlan, vni:10)
 11.254.2.4/32        bgp-evpn     0        170     >        2.2.2.1(tunnel:vxlan, vni:10)
 ```
+
 * tenant1 ip-vrf EVPN type 5 IFL over VXLAN and IPVPN stitching (Service Leaf1)
 
 ```
@@ -310,10 +476,7 @@ Failure cause               : N/A
 ===============================================================================
 ```
 
-* bngblaster container is used as per tenant host emulation with both icmp and http traffic generation toward internet-host. 
-  * tenant1 is running over ip-vrf-tenant1 (service-id 10001 in SROS) from leaf1 to service-leaf 1/2 using EVPN type 5 IFL over VXLAN
-  * tenant2 is runnig over ip-vrf-tenant2 (service-id 10002 in SROS) from leaf2 to service-leaf1/2 using EVPN type 5 IFL over VXLAN
-  * internet VRF is using service-id 1001 between service-leaf3/4 and internet-peer and running over GRE tunnel using MPLS IPVPN.
+generate traffic flows from tenant side
 
 ```
  ./run_traffic.sh 
